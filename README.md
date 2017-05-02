@@ -16,4 +16,8 @@ q.Push(data)
 dat, valid := q.Pop()
 ```
 
+`Len` returns the number of queue objects currently stored in the queue
+
+`Cap` returns the current capacity of the queue
+
 See the `_example` directory for a more in-depth example
