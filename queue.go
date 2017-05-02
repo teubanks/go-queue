@@ -2,8 +2,10 @@ package queue
 
 import "sync"
 
+type Queueable interface{}
+
 type Queue struct {
-	nodes []interface{}
+	nodes []Queueable
 	head  int
 	tail  int
 	cnt   int
@@ -13,12 +15,12 @@ var QueueMutex sync.RWMutex
 
 func NewQueue() *Queue {
 	return &Queue{
-		nodes: make([]interface{}, 2),
+		nodes: make([]Queueable, 2),
 	}
 }
 
 func (q *Queue) resize(n int) {
-	nodes := make([]interface{}, n)
+	nodes := make([]Queueable, n)
 	if q.head < q.tail {
 		copy(nodes, q.nodes[q.head:q.tail])
 	} else {
@@ -33,7 +35,7 @@ func (q *Queue) resize(n int) {
 
 // Push stores an object into the queue. If the queue gets pushed beyond its
 // current bounds, it's size gets doubled
-func (q *Queue) Push(i interface{}) {
+func (q *Queue) Push(i Queueable) {
 	QueueMutex.Lock()
 	defer QueueMutex.Unlock()
 
@@ -49,7 +51,7 @@ func (q *Queue) Push(i interface{}) {
 
 // Pop removes the first object from the queue. If number of elements in the
 // queue goes below half of available space, the queue capacity gets halved
-func (q *Queue) Pop() (interface{}, bool) {
+func (q *Queue) Pop() (Queueable, bool) {
 	QueueMutex.Lock()
 	defer QueueMutex.Unlock()
 
