@@ -67,7 +67,7 @@ func (q *Queue) Pop() (interface{}, bool) {
 	return i, true
 }
 
-// Cap returns the returns the current capacity of the queue
+// Cap returns the current capacity of the queue
 func (q *Queue) Cap() int {
 	QueueMutex.RLock()
 	defer QueueMutex.RUnlock()
