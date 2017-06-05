@@ -1,9 +1,6 @@
 package queue
 
-import (
-	"log"
-	"time"
-)
+import "time"
 
 type PeriodicFlusher struct {
 	queue        *Queue
@@ -31,7 +28,6 @@ func (r *PeriodicFlusher) startFlusher() {
 	r.flushQueue()
 
 	for {
-		log.Printf("flushing")
 		select {
 		case <-r.ticker:
 			r.flushQueue()
@@ -43,12 +39,10 @@ func (r *PeriodicFlusher) startFlusher() {
 }
 
 func (r *PeriodicFlusher) Start() {
-	log.Println("starting queue")
 	go r.startFlusher()
 }
 
 func (r *PeriodicFlusher) Stop() {
-	log.Println("stopping queue")
 	close(r.doneFlushing) // stops goroutine that flushes the pool
 	// Flush one more time just in case the ticker
 	// was stopped before all metrics were flushed
