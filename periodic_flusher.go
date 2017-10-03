@@ -2,6 +2,10 @@ package queue
 
 import "time"
 
+type Enqueuer interface {
+	Enqueue(obj Queueable)
+}
+
 type PeriodicFlusher struct {
 	queue        *Queue
 	ticker       <-chan time.Time
